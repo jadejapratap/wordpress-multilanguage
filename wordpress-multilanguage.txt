@@ -1,0 +1,44 @@
+Wordpress multisite
+---------------------------
+1)wp-config.php
+
+/* That's all, stop editing! Happy publishing. */
+
+/* Multisite */
+define( 'WP_ALLOW_MULTISITE', true );
+
+2)Admin tool->network setup->install
+
+3)add code in wp-config.php after install
+
+/* That's all, stop editing! Happy publishing. */
+
+/* Multisite */
+define( 'WP_ALLOW_MULTISITE', true );
+
+define('MULTISITE', true);
+define('SUBDOMAIN_INSTALL', false);
+define('DOMAIN_CURRENT_SITE', 'localhost');
+define('PATH_CURRENT_SITE', '/wordpress/');
+define('SITE_ID_CURRENT_SITE', 1);
+define('BLOG_ID_CURRENT_SITE', 1);
+
+4)replace code in .htaccess
+
+		RewriteEngine On
+RewriteBase /wordpress/
+RewriteRule ^index\.php$ - [L]
+
+# add a trailing slash to /wp-admin
+RewriteRule ^([_0-9a-zA-Z-]+/)?wp-admin$ $1wp-admin/ [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^([_0-9a-zA-Z-]+/)?(wp-(content|admin|includes).*) $2 [L]
+RewriteRule ^([_0-9a-zA-Z-]+/)?(.*\.php)$ $2 [L]
+RewriteRule . index.php [L]
+
+
+
+
